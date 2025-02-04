@@ -1,0 +1,141 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+/* Header */
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 20px;
+}
+
+/* Container for the forms and claim list */
+div {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Form Styles */
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* UserForm Styles */
+.user-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-form button {
+  width: 200px;
+  margin-top: 10px;
+}
+
+/* PolicyForm Styles */
+.policy-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.policy-form input,
+.policy-form textarea {
+  width: 70%;
+}
+
+.policy-form button {
+  width: 220px;
+  margin-top: 10px;
+}
+
+/* ClaimForm Styles */
+.claim-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.claim-form input,
+.claim-form textarea {
+  width: 70%;
+}
+
+.claim-form button {
+  width: 240px;
+  margin-top: 10px;
+}
+
+/* Claim List Styles */
+.claim-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.claim-list .claim-item {
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  width: 80%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.claim-list .claim-item p {
+  margin: 5px 0;
+}
+
+.claim-list .claim-item .claim-status {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+  .policy-form input, .claim-form input, .policy-form textarea, .claim-form textarea {
+    width: 90%;
+  }
+
+  .policy-form button, .claim-form button {
+    width: 90%;
+  }
+
+  .claim-list .claim-item {
+    width: 90%;
+  }
+}

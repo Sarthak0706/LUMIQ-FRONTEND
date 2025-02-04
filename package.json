@@ -6,6 +6,7 @@
     "@hookform/resolvers": "^3.10.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
+    "logrocket": "^9.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
@@ -37,5 +38,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "cypress": "^14.0.1",
+    "jest": "^27.5.1",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
   }
 }
