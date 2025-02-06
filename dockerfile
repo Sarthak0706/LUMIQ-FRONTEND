@@ -2,16 +2,16 @@
 FROM node:14 AS build
 
 # Step 2: Set the working directory for the React app inside the container
-WORKDIR /app
+WORKDIR /app/frontend
 
 # Step 3: Copy the package.json and package-lock.json (or yarn.lock)
-COPY package*.json ./
+COPY frontend/package*.json ./  
 
 # Step 4: Install dependencies
 RUN npm install
 
-# Step 5: Copy the entire project into the container
-COPY . ./
+# Step 5: Copy the entire frontend project into the container
+COPY frontend ./  
 
 # Step 6: Build the React app for production (optimized build)
 RUN npm run build

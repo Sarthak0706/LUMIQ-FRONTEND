@@ -1,21 +1,37 @@
+
 import { useState } from "react";
 import { createUser } from "../api";
-import LogRocket from "logrocket"; // Make sure you import LogRocket
+import LogRocket from "logrocket";
 
-const UserForm = ({ onUserCreated }) => { // Receive the callback
+const UserForm = ({ onUserCreated }) => {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [nameError, setNameError] = useState(""); // State to store name validation error
+
+  const handleNameChange = (e) => {
+    const newName = e.target.value;
+    if (/^[A-Za-z\s]*$/.test(newName)) {
+      setName(newName);
+      setNameError(""); // Clear error if valid
+    } else {
+      setNameError("Name must contain only letters and spaces.");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // LogRocket custom event tracking
-    LogRocket.track('submit-button-clicked', {
-      id,    // Track the id
-      name,  // Track the name
-      email, // Track the email
-      action: 'User Form Submission'
+
+    if (nameError) {
+      alert("Please fix the errors before submitting.");
+      return;
+    }
+
+    LogRocket.track("submit-button-clicked", {
+      id,
+      name,
+      email,
+      action: "User Form Submission",
     });
 
     try {
@@ -24,7 +40,7 @@ const UserForm = ({ onUserCreated }) => { // Receive the callback
       setId("");
       setName("");
       setEmail("");
-      onUserCreated(); // Notify Home that user is created
+      onUserCreated();
     } catch (error) {
       alert(error.response?.data?.detail || "Error creating user");
     }
@@ -45,9 +61,10 @@ const UserForm = ({ onUserCreated }) => { // Receive the callback
           type="text"
           placeholder="Name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={handleNameChange}
           required
         />
+        {nameError && <p style={{ color: "red" }}>{nameError}</p>}
         <input
           type="email"
           placeholder="Email"
@@ -62,4 +79,3 @@ const UserForm = ({ onUserCreated }) => { // Receive the callback
 };
 
 export default UserForm;
-
