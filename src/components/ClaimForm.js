@@ -51,7 +51,6 @@ const CreateClaimForm = () => {
     // Normalize status to lowercase to handle variations of "pending"
     const normalizedStatus = status.trim().toLowerCase();
 
-    // You can now proceed with the "pending" status as a valid value
     try {
       await axios.post("http://localhost:8000/claims", {
         description,
@@ -69,6 +68,15 @@ const CreateClaimForm = () => {
       console.error("Error creating claim:", err);
       setError("Failed to create claim.");
     }
+  };
+
+  const handleAmountChange = (e) => {
+    let newAmount = e.target.value;
+    // Only allow positive numbers and prevent negative values
+    if (newAmount < 0) {
+      newAmount = 0;
+    }
+    setAmount(newAmount);
   };
 
   return (
@@ -108,7 +116,7 @@ const CreateClaimForm = () => {
           <input
             type="number"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={handleAmountChange}  // Updated the amount change handler
             required
           />
         </div>
