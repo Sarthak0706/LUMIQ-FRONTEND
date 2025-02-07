@@ -1,42 +1,70 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CreateClaimForm = () => {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [amount, setAmount] = useState("");
+  const [policyNumber, setPolicyNumber] = useState("");
+  const [policyAmount, setPolicyAmount] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchPolicyAmount = async () => {
+      if (policyNumber) {
+        try {
+          const response = await axios.get(`http://localhost:8000/policies/${policyNumber}`);
+          setPolicyAmount(response.data.amount);
+          setError(""); // Clear error when policy is found
+        } catch (err) {
+          setPolicyAmount(null); // Reset policy amount if not found
+          // setError("Policy not found.");
+        }
+      } else {
+        setPolicyAmount(null); // Reset policy amount if no policy number is entered
+        setError(""); // Clear error if no policy number
+      }
+    };
+
+    fetchPolicyAmount();
+  }, [policyNumber]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Basic validation for empty fields
-    if (!description || !status || !amount) {
+
+    if (!description || !status || !amount || !policyNumber) {
       setError("All fields are required.");
       return;
     }
 
-    // Check if amount is a valid number
     const parsedAmount = parseFloat(amount);
-    if (isNaN(parsedAmount)) {
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
       setError("Please enter a valid amount.");
       return;
     }
 
+    if (policyAmount !== null && parsedAmount > policyAmount) {
+      setError("Claim amount cannot exceed policy amount.");
+      return;
+    }
+
+    // Normalize status to lowercase to handle variations of "pending"
+    const normalizedStatus = status.trim().toLowerCase();
+
+    // You can now proceed with the "pending" status as a valid value
     try {
-      const response = await axios.post("http://localhost:8000/claims", {
+      await axios.post("http://localhost:8000/claims", {
         description,
-        status,
-        amount: parsedAmount, // Ensure it's a valid float
+        status: normalizedStatus, // Send the normalized status
+        amount: parsedAmount,
+        policyNumber,
       });
 
-      // Handle successful claim creation
-      console.log("Claim created:", response.data);
       alert("Claim created successfully!");
       setDescription("");
       setStatus("");
-      setAmount(""); // Clear amount field after success
+      setAmount("");
+      setPolicyNumber("");
     } catch (err) {
       console.error("Error creating claim:", err);
       setError("Failed to create claim.");
@@ -47,6 +75,16 @@ const CreateClaimForm = () => {
     <div>
       <h2>Create Claim</h2>
       <form onSubmit={handleSubmit}>
+        <div>
+          <label>Policy Number:</label>
+          <input
+            type="text"
+            value={policyNumber}
+            onChange={(e) => setPolicyNumber(e.target.value)}
+            required
+          />
+        </div>
+        {policyAmount !== null && <p>Policy Amount: ₹{policyAmount}</p>}
         <div>
           <label>Description:</label>
           <input

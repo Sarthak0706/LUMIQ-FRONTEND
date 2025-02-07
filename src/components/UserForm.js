@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { createUser } from "../api";
 import LogRocket from "logrocket";
@@ -35,7 +34,7 @@ const UserForm = ({ onUserCreated }) => {
     });
 
     try {
-      await createUser({ id, name, email });
+      await createUser({ id, name, email }); // Ensure 'id' is included
       alert("User created successfully!");
       setId("");
       setName("");
